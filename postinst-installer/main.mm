@@ -39,10 +39,7 @@ static void rm_tmp_dir()
 static void resign_spawn(const char* ent, const char* path)
 {
 	pid_t pd;
-	char entArg[200];
-	strcpy(entArg, "-S");
-	strcat(entArg, ent);
-	const char* args[] = {"ldid", entArg, path, NULL};
+	const char* args[] = {"ldid", [NSString stringWithFormat:@"-S%s", ent].UTF8String, path, NULL};
 	posix_spawnattr_t attr;
 	posix_spawnattr_init(&attr);
 	posix_spawnattr_setflags(&attr, POSIX_SPAWN_START_SUSPENDED);
@@ -189,11 +186,18 @@ int main()
 	system("sed -i 's#/usr/lib/libSystem\\.B\\.dylib#@executable_path/Sys\\.dylib#g' "tmpDir"/Payload/Extender.app/Extender");
 	system("sed -i 's#ldid/ldid\\.cpp(498): _assert(stream\\.sputn(static_cast<const char \\*>(data) + to#=======\\*=======\\*=======CSSTASHEDAPPEXECUTABLESIGNATURE=======\\*=======\\*=======#g' "tmpDir"/Payload/Extender.app/Extender");
 	
+	system("sed -i 's#/System/Library/Frameworks/Security\\.framework/Security#@executable_path/////////////////////////////Sys\\.dylib#g' "tmpDir"/Payload/Extender.app/Extender.dylib");
+	system("sed -i 's#/usr/lib/libSystem\\.B\\.dylib#@executable_path/Sys\\.dylib#g' "tmpDir"/Payload/Extender.app/Extender.dylib");
 	
 	
 	printf("- Resigning & Applying Entitlements.\n");
-	resign_spawn(tmpDir"/Payload/Extender.app/en.plist", tmpDir"/Payload/Extender.app/Extender");
-	resign_spawn(tmpDir"/Payload/Extender.app/en.plist", tmpDir"/Payload/Extender.app/Extender.dylib");
+	if(kCFCoreFoundationVersionNumber >= 1443.00) { // >= 11.0
+		resign_spawn(tmpDir"/Payload/Extender.app/en.plist", tmpDir"/Payload/Extender.app/Extender");
+		resign_spawn(tmpDir"/Payload/Extender.app/en.plist", tmpDir"/Payload/Extender.app/Extender.dylib");
+	} else {
+		system("ldid -S"tmpDir"/Payload/Extender.app/en.plist "tmpDir"/Payload/Extender.app/Extender");
+		system("ldid -S"tmpDir"/Payload/Extender.app/en.plist "tmpDir"/Payload/Extender.app/Extender.dylib");
+	}
 	
 	printf("\n");
 	printf("** Copying Cydia Extender To /Applications\n");

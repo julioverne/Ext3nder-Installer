@@ -33,6 +33,7 @@
 		<string>UninstallForLaunchServices</string>
 		<string>CopyDiskUsageForLaunchServices</string>
 		<string>InstallLocalProvisioned</string>
+		<string>SetCapabilities</string>
 	</array>
 	
 	<key>com.apple.private.security.no-container</key>
@@ -56,10 +57,59 @@
 	<key>com.apple.managedconfiguration.profiled-access</key>
 	<true/>
 	
+	<key>com.apple.managedconfiguration.mdmd-access</key>
+	<true/>
+	
+	<key>com.apple.lsapplicationproxy.deviceidentifierforvendor</key>
+	<true/>
+	
+	<key>com.apple.frontboard.launchapplications</key>
+	<true/>
+	
+	<key>com.apple.backboardd.launchapplications</key>
+	<true/>
+	
 	<key>com.apple.developer.icloud-services</key>
 	<array>
 		<string>CloudDocuments</string>
 		<string>CloudKit</string>
 	</array>
+	
+	<key>com.apple.private.MobileContainerManager.otherIdLookup</key>
+	<true/>
+	
+	<key>com.apple.private.CoreAuthentication.SPI</key>
+	<true/>
+	
+	<key>com.apple.SystemConfiguration.SCDynamicStore-write-access</key>
+	<true/>
+	
+	<key>com.apple.SystemConfiguration.SCPreferences-write-access</key>
+	<array>
+		<string>com.apple.AutoWake.xml</string>
+	</array>
+	
+	<key>com.apple.duet.activityscheduler.allow</key>
+	<true/>
+	
+	<key>com.apple.CommCenter.fine-grained</key>
+	<array>
+		<string>spi</string>
+	</array>
+	
+	<key>com.apple.multitasking.systemappassertions</key>
+	<true/>
+	
+	<key>com.apple.multitasking.termination</key>
+	<true/>
+	
+	<key>com.apple.private.mis.online_auth_agent</key>
+	<true/>
+	
+	<key>com.apple.springboard.openurlswhenlocked</key>
+	<true/>
+	
+	<key>com.apple.wifi.manager-access</key>
+	<true/>
 </dict>
 </plist>
